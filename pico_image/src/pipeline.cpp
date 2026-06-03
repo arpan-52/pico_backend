@@ -107,6 +107,15 @@ int run_pipeline(const Config& cfg_in) {
 
     const double dt_rec = rs.t_slice / rs.rec_per_slice;
 
+    // Per-baseline visibility conjugation (svfits init_vispar `flip`,
+    // svsubs.c:196-212, applied at svsubs.c:1675). svfits flips imag based on
+    // (antenna order XOR sideband), then images with uvw = B[ant_hi]-B[ant_lo].
+    // pico's uvw already pairs by the SAME samplers as the stored vis
+    // (uvw.cpp: B[s1.ant]-B[s0.ant]), so the antenna-order half of svfits's
+    // rule cancels and only the global sideband conjugation remains:
+    // conjugate every cross-correlation when USB (net_sign >= 0, freq1>=freq0).
+    const bool conj_vis = (cfg.freq1_hz >= cfg.freq0_hz);
+
     // ---- DC-term diagnostic accumulators -------------------------------
     // The dirty-image centre pixel == weighted-mean visibility (the DC /
     // zero-spacing term). To localise a spurious central source we decompose
@@ -279,6 +288,8 @@ int run_pipeline(const Config& cfg_in) {
                         Vis v; decode_packed(row + c, v);
                         if (cfg.do_band || cfg.do_base)
                             apply_calib(v, bp, b, c);
+                        // svfits flip: conjugate AFTER off_src/abp (svsubs.c:1675)
+                        if (conj_vis) v.i = -v.i;
                         ch[c - cs] = v;
                     }
                     if (cfg.do_flag) clip_record(ch, cfg.thresh);

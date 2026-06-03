@@ -57,21 +57,22 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
         burst_chans_for_record(cfg, trec, dt_rec, nch, &rec_cs[r], &rec_ce[r]);
     }
 
-    // Robust off_src per (baseline, channel): the MEDIAN (real, imag separately)
-    // of the off-burst records — NOT the arithmetic mean. svfits uses a plain
-    // mean (svsubs.c:1494), but off-burst RFI spikes inflate that mean, and since
-    // off_src is subtracted from every burst sample the bias appears as a uniform
-    // negative pedestal / central source once the on-burst RFI is clipped. The
-    // median is robust to those spikes and parameter-free (THRESH-independent).
+    // off_src per (baseline, channel) = arithmetic MEAN of the off-burst
+    // records (svfits make_bpass, svsubs.c:1494-1499). The MEAN — not the
+    // median — is what removes the steady coherent component (continuum /
+    // persistent correlated RFI) common to on- and off-burst samples; svfits
+    // subtracts exactly this and the reference image comes out blank when no
+    // burst is present. abp[b][c] = MEAN amplitude <sqrt(re^2+im^2)> over the
+    // same records (svsubs.c:1495,1500). NOTE: abp must be <|V|> (mean of the
+    // amplitudes), NOT |<V>| (= |off_src|): for noise |<V>| -> 0 and dividing
+    // by it explodes the visibilities. n==0 channels are flagged (-1) and
+    // filled by neighbour-carry below (svsubs.c:1502-1503,1529-1530).
     #pragma omp parallel for num_threads(cfg.num_threads)
     for (int b = 0; b < nbase; ++b) {
         // Skip autocorrelations — never imaged, only pollute off_src.
         if (as.baseline[b].s0.ant_id == as.baseline[b].s1.ant_id) continue;
-        std::vector<float> re, im;
-        re.reserve(rs.rec_per_slice);
-        im.reserve(rs.rec_per_slice);
         for (int c = 0; c < nch; ++c) {
-            re.clear(); im.clear();
+            double sre = 0, sim = 0, samp = 0; long n = 0;
             for (int r = 0; r < rs.rec_per_slice; ++r) {
                 if (c >= rec_cs[r] && c < rec_ce[r]) continue;  // burst region
                 const float* slot = base +
@@ -80,19 +81,19 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
                 Vis v; decode_vis(slot, v);
                 // Guard non-finite decoded halfs (svfits svsubs.c:1493).
                 if (!std::isfinite(v.r) || !std::isfinite(v.i)) continue;
-                re.push_back(v.r); im.push_back(v.i);
+                sre += v.r; sim += v.i; samp += std::hypot(v.r, v.i); ++n;
             }
-            const std::size_t m = re.size();
-            if (m == 0) { bp.off_src[b][c] = Complex{0, 0}; continue; }
-            std::nth_element(re.begin(), re.begin() + m / 2, re.end());
-            std::nth_element(im.begin(), im.begin() + m / 2, im.end());
-            bp.off_src[b][c] = Complex(re[m / 2], im[m / 2]);
+            if (n > 0) {
+                bp.off_src[b][c] = Complex(float(sre / n), float(sim / n));
+                bp.abp[b][c]     = float(samp / n);
+            } else {
+                bp.off_src[b][c] = Complex{0, 0};
+                bp.abp[b][c]     = -1.0f;  // flag for neighbour-carry below
+            }
         }
     }
     // off_src bias diagnostic: this complex constant is subtracted from EVERY
-    // burst sample, so a large coherent +ve real here drives a negative central
-    // source. With the robust median estimate above it should now be small.
-    // Report the across-array mean + extremes.
+    // burst sample, so a large coherent +ve real here drives a central source.
     {
         double sre = 0, sim = 0, samp = 0, amax = 0; std::size_t n = 0;
         for (int b = 0; b < nbase; ++b)
@@ -108,19 +109,23 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
                 "|.|=%.6g max|.|=%.6g over %zu (base,chan)\n",
                 idx, slice, sre / n, sim / n, samp / n, amax, n);
     }
-    // Amplitude bandpass: |off_src[b][c]| normalised per-baseline so that
-    // its geomean across channels is 1
+    // Amplitude bandpass normalisation (svfits svsubs.c:1521-1536): carry the
+    // first valid value backward, forward-fill flagged channels, then divide
+    // by the per-baseline median across channels so the bandpass sits near 1.
     for (int b = 0; b < nbase; ++b) {
-        double logsum = 0.0; int n = 0;
-        for (int c = 0; c < nch; ++c) {
-            const float a = std::abs(bp.off_src[b][c]);
-            if (a > 0) { logsum += std::log(double(a)); ++n; bp.abp[b][c] = a; }
-            else       { bp.abp[b][c] = 1.0f; }
+        if (as.baseline[b].s0.ant_id == as.baseline[b].s1.ant_id) continue;
+        auto& abp = bp.abp[b];
+        if (abp[0] < 0.0f)
+            for (int c = 1; c < nch; ++c) if (abp[c] > 0.0f) { abp[0] = abp[c]; break; }
+        if (abp[0] < 0.0f) {                       // all channels flagged
+            for (int c = 0; c < nch; ++c) abp[c] = 1.0f;
+            continue;
         }
-        if (n > 0) {
-            const float gm = static_cast<float>(std::exp(logsum / n));
-            if (gm > 0) for (int c = 0; c < nch; ++c) bp.abp[b][c] /= gm;
-        }
+        for (int c = 1; c < nch; ++c) if (abp[c] < 0.0f) abp[c] = abp[c - 1];
+        std::vector<float> tmp(abp.begin(), abp.end());
+        std::nth_element(tmp.begin(), tmp.begin() + nch / 2, tmp.end());
+        const float medc = tmp[nch / 2];
+        if (medc > 0.0f) for (int c = 0; c < nch; ++c) abp[c] /= medc;
     }
     return 0;
 }
