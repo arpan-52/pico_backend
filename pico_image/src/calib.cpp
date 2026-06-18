@@ -47,7 +47,7 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
     // accumulate into off_src.
     const auto* base = static_cast<const float*>(rbuf);
     const double dt_rec = rs.t_slice / rs.rec_per_slice;
-    const double t_slice_start = idx * rs.t_slice + slice * rs.slice_interval;
+    const double t_slice_start = rs.files[idx].t_start + slice * rs.slice_interval;
 
     // Per-record burst channel range, so we know which records are off-source
     // for a given channel.
@@ -56,6 +56,19 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
         const double trec = t_slice_start + r * dt_rec;
         burst_chans_for_record(cfg, trec, dt_rec, nch, &rec_cs[r], &rec_ce[r]);
     }
+
+    if (!cfg.do_band && !cfg.do_base) return 0;  // nominal abp=1/off=0 stand
+
+    // Per-channel burst record span, exactly as svfits (svsubs.c:1478-1488):
+    // channel c is in-burst for record r iff start_chan < c < end_chan
+    // (STRICT both ends), and the off-source region excludes the full
+    // contiguous span [r0,r1] of such records.
+    std::vector<int> ch_r0(nch, rs.rec_per_slice), ch_r1(nch, -1);
+    for (int r = 0; r < rs.rec_per_slice; ++r)
+        for (int c = rec_cs[r] + 1; c < rec_ce[r]; ++c) {
+            if (r < ch_r0[c]) ch_r0[c] = r;
+            if (r > ch_r1[c]) ch_r1[c] = r;
+        }
 
     // off_src per (baseline, channel) = arithmetic MEAN of the off-burst
     // records (svfits make_bpass, svsubs.c:1494-1499). The MEAN — not the
@@ -74,7 +87,7 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
         for (int c = 0; c < nch; ++c) {
             double sre = 0, sim = 0, samp = 0; long n = 0;
             for (int r = 0; r < rs.rec_per_slice; ++r) {
-                if (c >= rec_cs[r] && c < rec_ce[r]) continue;  // burst region
+                if (r >= ch_r0[c] && r <= ch_r1[c]) continue;  // burst span
                 const float* slot = base +
                     (static_cast<std::ptrdiff_t>(r) * (nch * nbase) +
                      static_cast<std::ptrdiff_t>(b) * nch + c);
@@ -109,6 +122,14 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
                 "|.|=%.6g max|.|=%.6g over %zu (base,chan)\n",
                 idx, slice, sre / n, sim / n, samp / n, amax, n);
     }
+    // do_band off → nominal flat bandpass, skip interpolation/normalisation
+    // (svfits svsubs.c:1512-1519).
+    if (!cfg.do_band) {
+        for (int b = 0; b < nbase; ++b)
+            for (int c = 0; c < nch; ++c) bp.abp[b][c] = 1.0f;
+        return 0;
+    }
+
     // Amplitude bandpass normalisation (svfits svsubs.c:1521-1536): carry the
     // first valid value backward, forward-fill flagged channels, then divide
     // by the per-baseline median across channels so the bandpass sits near 1.
@@ -122,34 +143,23 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
             continue;
         }
         for (int c = 1; c < nch; ++c) if (abp[c] < 0.0f) abp[c] = abp[c - 1];
+        // svfits quick_median averages the two middle elements for even n
+        // (stats.c:140-151) — match it, nch is 4096.
         std::vector<float> tmp(abp.begin(), abp.end());
         std::nth_element(tmp.begin(), tmp.begin() + nch / 2, tmp.end());
-        const float medc = tmp[nch / 2];
+        float medc = tmp[nch / 2];
+        if (nch % 2 == 0) {
+            const float lo = *std::max_element(tmp.begin(), tmp.begin() + nch / 2);
+            medc = 0.5f * (medc + lo);
+        }
         if (medc > 0.0f) for (int c = 0; c < nch; ++c) abp[c] /= medc;
     }
-    return 0;
-}
 
-int clip_record(std::vector<Vis>& ch, float mad_thresh) {
-    if (ch.empty()) return 0;
-    // Compute amplitude vector
-    std::vector<float> amp; amp.reserve(ch.size());
-    for (const auto& v : ch) if (v.wt > 0) amp.push_back(std::hypot(v.r, v.i));
-    if (amp.size() < 4) return 0;
-    std::nth_element(amp.begin(), amp.begin() + amp.size()/2, amp.end());
-    const float med = amp[amp.size() / 2];
-    // MAD
-    std::vector<float> dev; dev.reserve(amp.size());
-    for (float a : amp) dev.push_back(std::fabs(a - med));
-    std::nth_element(dev.begin(), dev.begin() + dev.size()/2, dev.end());
-    const float mad = dev[dev.size() / 2];
-    if (mad <= 0) return 0;
-    const float thr = med + mad_thresh * 1.4826f * mad;
-    int flagged = 0;
-    for (auto& v : ch) {
-        if (std::hypot(v.r, v.i) > thr) { v.wt = -1.0f; ++flagged; }
-    }
-    return flagged;
+    // do_base off → no off-source subtraction (svfits svsubs.c:1538-1545).
+    if (!cfg.do_base)
+        for (int b = 0; b < nbase; ++b)
+            for (int c = 0; c < nch; ++c) bp.off_src[b][c] = Complex{0, 0};
+    return 0;
 }
 
 } // namespace pico

@@ -1,0 +1,3 @@
+/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/CMakeFiles/xsimd-populate.dir
+/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/CMakeFiles/edit_cache.dir
+/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/CMakeFiles/rebuild_cache.dir

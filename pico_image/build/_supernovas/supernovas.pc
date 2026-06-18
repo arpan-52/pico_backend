@@ -1,0 +1,17 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=/usr/local/lib
+includedir=/usr/local/include
+
+Name: supernovas
+Description: SuperNOVAS C/C++ astrometry library
+Version: 1.6.0
+URL: https://sigmyne.github.io/SuperNOVAS/
+Copyright: (C) 2026 Attila Kovacs
+License: Unlicense
+
+Cflags: -I${includedir}
+Libs: -L${libdir} -lsupernovas 
+Libs.private: -lm 
+
+

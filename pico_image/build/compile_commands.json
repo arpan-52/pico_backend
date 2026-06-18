@@ -1,0 +1,122 @@
+[
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/makeplan.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/makeplan.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/makeplan.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/makeplan.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/setpts.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/setpts.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/setpts.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/setpts.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/execute.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/execute.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/execute.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/execute.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/spreadinterp.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/spreadinterp.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/spreadinterp_1d.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp_1d.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp_1d.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/spreadinterp_1d.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/spreadinterp_2d.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp_2d.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp_2d.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/spreadinterp_2d.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++ -DFINUFFT_SINGLE -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft_f32.dir/spreadinterp_3d.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp_3d.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp_3d.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft_f32.dir/spreadinterp_3d.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/makeplan.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/makeplan.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/makeplan.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/makeplan.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/setpts.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/setpts.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/setpts.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/setpts.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/execute.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/execute.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/execute.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/execute.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/spreadinterp.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/spreadinterp.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/spreadinterp_1d.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp_1d.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp_1d.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/spreadinterp_1d.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/spreadinterp_2d.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp_2d.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp_2d.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/spreadinterp_2d.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/spreadinterp_3d.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/spreadinterp_3d.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/spreadinterp_3d.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/spreadinterp_3d.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/fft.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/fft.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/fft.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/fft.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/c_interface.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/c_interface.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/c_interface.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/c_interface.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include -I/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-src/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -march=native -funroll-loops -ffp-contract=fast -fno-math-errno -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fmerge-all-constants -ftree-vectorize -fimplicit-constexpr -fcx-limited-range -fno-semantic-interposition -O3 -fopenmp -o CMakeFiles/finufft.dir/utils.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/utils.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/utils.cpp",
+  "output": "_finufft/src/CMakeFiles/finufft.dir/utils.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src/common",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/finufft_common.dir/kernel.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/common/kernel.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/common/kernel.cpp",
+  "output": "_finufft/src/common/CMakeFiles/finufft_common.dir/kernel.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src/common",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/finufft_common.dir/utils.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/common/utils.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/common/utils.cpp",
+  "output": "_finufft/src/common/CMakeFiles/finufft_common.dir/utils.cpp.o"
+},
+{
+  "directory": "/home/arpan/pico/pico_backend/pico_image/build/_finufft/src/common",
+  "command": "/usr/bin/g++  -I/home/arpan/pico/pico_backend/finufft/include  -fno-fast-math -fno-finite-math-only -fsigned-zeros -ftrapping-math -O3 -DNDEBUG -std=gnu++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/finufft_common.dir/pswf.cpp.o -c /home/arpan/pico/pico_backend/finufft/src/common/pswf.cpp",
+  "file": "/home/arpan/pico/pico_backend/finufft/src/common/pswf.cpp",
+  "output": "_finufft/src/common/CMakeFiles/finufft_common.dir/pswf.cpp.o"
+}
+]

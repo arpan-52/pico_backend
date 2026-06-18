@@ -1,0 +1,2 @@
+/usr/bin/ar qc libfinufft_common.a CMakeFiles/finufft_common.dir/kernel.cpp.o CMakeFiles/finufft_common.dir/utils.cpp.o CMakeFiles/finufft_common.dir/pswf.cpp.o
+/usr/bin/ranlib libfinufft_common.a

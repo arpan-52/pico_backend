@@ -1,0 +1,14 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/arpan/pico/pico_backend/pico_image/build/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_finufft/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_finufft/src/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-build/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_finufft/src/common/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_supernovas/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_supernovas/src/cmake_install.cmake",
+		"/home/arpan/pico/pico_backend/pico_image/build/_supernovas/src/c99/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

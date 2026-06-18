@@ -46,7 +46,7 @@ inline void decode_packed(const float* slot, Vis& v) {
 static void update_burst(Config& cfg, double mjd_ref) {
     if (!cfg.update_burst) return;
     auto& b = cfg.burst;
-    constexpr double K0 = 4.148808e-3;
+    constexpr double K0 = 4.15e-3;  // match svfits (svsubs.c:35)
     const double fb = b.freq * 1e-9;                                  // GHz
     const double f_hi = std::max(cfg.freq0_hz, cfg.freq1_hz) * 1e-9;
     const double f_lo = std::min(cfg.freq0_hz, cfg.freq1_hz) * 1e-9;
@@ -56,7 +56,7 @@ static void update_burst(Config& cfg, double mjd_ref) {
                     + K0 * b.DM * (1.0/(f_lo*f_lo) - 1.0/(fb*fb));
     b.width = tl - th;
     // burst.t in seconds since mjd_ref (the time origin used everywhere else
-    // in pico_image — t_start[idx] = idx*t_slice, trec measured from the same
+    // in pico_image — per-file t_start and trec are measured from the same
     // origin). burst.mjd is the burst arrival time at burst.freq, in MJD.
     b.t = (b.mjd - mjd_ref) * 86400.0;
     std::fprintf(stderr,
@@ -152,7 +152,10 @@ int run_pipeline(const Config& cfg_in) {
             if (cfg.do_band || cfg.do_base)
                 make_bandpass(cfg, rs, as, rbuf.data(), i, sl, bp);
 
-            const double t_slice_start = i * rs.t_slice + sl * rs.slice_interval;
+            // Bag size before this slice — per-slice clip scope (svfits.c:697).
+            const std::size_t bag0 = dirty_samples.size();
+
+            const double t_slice_start = f.t_start + sl * rs.slice_interval;
             for (int r = 0; r < rs.rec_per_slice; ++r) {
                 const int global_rec = sl * rs.rec_per_slice + r;
                 if (global_rec < f.start_rec ||
@@ -292,7 +295,9 @@ int run_pipeline(const Config& cfg_in) {
                         if (conj_vis) v.i = -v.i;
                         ch[c - cs] = v;
                     }
-                    if (cfg.do_flag) clip_record(ch, cfg.thresh);
+                    // NOTE: no per-record clip here. svfits's burst path has
+                    // exactly one flagger: the per-slice clip() (svfits.c:697),
+                    // applied below after the slice's samples are gathered.
 
                     GridSamples local_d, local_p;
                     local_d.reserve(ch.size());
@@ -346,6 +351,14 @@ int run_pipeline(const Config& cfg_in) {
                             local_p.wt.begin(), local_p.wt.end());
                     }
                 }
+            }
+
+            // Per-slice robust MAD clip on this slice's gathered samples —
+            // svfits's one and only burst-path flagger (clip() per file/slice,
+            // svfits.c:690-700).
+            if (cfg.do_flag && dirty_samples.size() > bag0) {
+                std::fprintf(stderr, "clip file=%d slice=%d: ", i, sl);
+                global_clip_samples(dirty_samples, psf_samples, cfg.thresh, bag0);
             }
         }
     }
@@ -408,12 +421,8 @@ int run_pipeline(const Config& cfg_in) {
     }
     // ====================================================================
 
-    // Global robust MAD flag across all baselines (svfits clip(), svsubs.c:1322).
-    // The per-baseline clip_record() above mirrors svfits approx_stats but cannot
-    // catch a uniformly-hot RFI baseline; this global stage does, removing the
-    // bright central point source that such RFI otherwise produces.
-    if (cfg.do_flag)
-        global_clip_samples(dirty_samples, psf_samples, cfg.thresh);
+    // Flagging already done per (file,slice) above — svfits has no further
+    // global clip stage after copy_burst.
 
     // Map u_λ, v_λ → FINUFFT coords in [-π, π) for the requested cellsize.
     const double cellsize_rad = cfg.cellsize_asec * (M_PI / 180.0 / 3600.0);

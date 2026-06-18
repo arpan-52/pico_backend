@@ -20,31 +20,45 @@
 
 namespace pico {
 
+namespace {
+
+// Median matching svfits quick_median (stats.c): mean of the two middle
+// elements for even n. Modifies its argument.
+double median_inplace(std::vector<double>& x) {
+    const std::size_t n = x.size();
+    std::nth_element(x.begin(), x.begin() + n / 2, x.end());
+    double med = x[n / 2];
+    if (n % 2 == 0)
+        med = 0.5 * (med + *std::max_element(x.begin(), x.begin() + n / 2));
+    return med;
+}
+
+} // namespace
+
 std::size_t global_clip_samples(GridSamples& dirty, GridSamples& psf,
-                                double thresh) {
+                                double thresh, std::size_t begin) {
     const std::size_t N = dirty.size();
-    if (N == 0) return 0;
+    if (begin >= N) return 0;
     if (psf.size() != N) {
         std::fprintf(stderr,
             "global_clip: dirty/psf size mismatch %zu vs %zu — skipping\n",
             N, psf.size());
         return 0;
     }
+    const std::size_t M = N - begin;  // samples in this clip scope
 
     // amplitude per sample: |vis| = |c| / wt   (c = vis*wt)
-    std::vector<double> amp(N);
-    for (std::size_t i = 0; i < N; ++i) {
-        const double w = (dirty.wt[i] > 0.0) ? dirty.wt[i] : 1.0;
-        amp[i] = std::abs(dirty.c[i]) / w;
+    std::vector<double> amp(M);
+    for (std::size_t i = 0; i < M; ++i) {
+        const double w = (dirty.wt[begin + i] > 0.0) ? dirty.wt[begin + i] : 1.0;
+        amp[i] = std::abs(dirty.c[begin + i]) / w;
     }
 
     // robust stats: med = median(amp), mad = median(|amp - med|)
     std::vector<double> tmp = amp;
-    std::nth_element(tmp.begin(), tmp.begin() + N / 2, tmp.end());
-    const double med = tmp[N / 2];
-    for (std::size_t i = 0; i < N; ++i) tmp[i] = std::fabs(amp[i] - med);
-    std::nth_element(tmp.begin(), tmp.begin() + N / 2, tmp.end());
-    const double mad = tmp[N / 2];
+    const double med = median_inplace(tmp);
+    for (std::size_t i = 0; i < M; ++i) tmp[i] = std::fabs(amp[i] - med);
+    const double mad = median_inplace(tmp);
     if (mad <= 0.0) {
         std::fprintf(stderr,
             "global_clip: mad=0 (med=%.6g) — no flagging\n", med);
@@ -57,7 +71,7 @@ std::size_t global_clip_samples(GridSamples& dirty, GridSamples& psf,
     // off_src over-subtraction exposed by removing the RFI (not the clip itself).
     {
         double sre = 0, sim = 0, sw = 0;
-        for (std::size_t i = 0; i < N; ++i) {
+        for (std::size_t i = begin; i < N; ++i) {
             sre += dirty.c[i].real(); sim += dirty.c[i].imag(); sw += dirty.wt[i];
         }
         std::fprintf(stderr,
@@ -65,37 +79,38 @@ std::size_t global_clip_samples(GridSamples& dirty, GridSamples& psf,
             sre, sim, sw > 0 ? sre / sw : 0.0);
     }
 
-    // rebuild both bags keeping only survivors (two-sided, like svfits clip())
-    GridSamples kd, kp;
-    kd.reserve(N); kp.reserve(N);
-    std::size_t flagged = 0;
-    for (std::size_t i = 0; i < N; ++i) {
+    // compact [begin,N) in place keeping only survivors (two-sided, like
+    // svfits clip()); [0,begin) — earlier slices, already clipped — untouched
+    std::size_t keep = begin, flagged = 0;
+    double sre = 0, sim = 0, sw = 0;
+    for (std::size_t i = 0; i < M; ++i) {
         if (std::fabs(amp[i] - med) > cut) { ++flagged; continue; }
-        kd.u_lambda.push_back(dirty.u_lambda[i]);
-        kd.v_lambda.push_back(dirty.v_lambda[i]);
-        kd.c.push_back(dirty.c[i]);
-        kd.wt.push_back(dirty.wt[i]);
-        kp.u_lambda.push_back(psf.u_lambda[i]);
-        kp.v_lambda.push_back(psf.v_lambda[i]);
-        kp.c.push_back(psf.c[i]);
-        kp.wt.push_back(psf.wt[i]);
+        const std::size_t src = begin + i;
+        dirty.u_lambda[keep] = dirty.u_lambda[src];
+        dirty.v_lambda[keep] = dirty.v_lambda[src];
+        dirty.c[keep]        = dirty.c[src];
+        dirty.wt[keep]       = dirty.wt[src];
+        psf.u_lambda[keep]   = psf.u_lambda[src];
+        psf.v_lambda[keep]   = psf.v_lambda[src];
+        psf.c[keep]          = psf.c[src];
+        psf.wt[keep]         = psf.wt[src];
+        sre += dirty.c[keep].real(); sim += dirty.c[keep].imag();
+        sw  += dirty.wt[keep];
+        ++keep;
     }
-    {
-        double sre = 0, sim = 0, sw = 0;
-        for (std::size_t i = 0; i < kd.c.size(); ++i) {
-            sre += kd.c[i].real(); sim += kd.c[i].imag(); sw += kd.wt[i];
-        }
-        std::fprintf(stderr,
-            "global_clip: post-clip DC (centre px) re=%.6g im=%.6g (sumRe/sumw=%.6g)\n",
-            sre, sim, sw > 0 ? sre / sw : 0.0);
-    }
+    dirty.u_lambda.resize(keep); dirty.v_lambda.resize(keep);
+    dirty.c.resize(keep);        dirty.wt.resize(keep);
+    psf.u_lambda.resize(keep);   psf.v_lambda.resize(keep);
+    psf.c.resize(keep);          psf.wt.resize(keep);
+
+    std::fprintf(stderr,
+        "global_clip: post-clip DC (centre px) re=%.6g im=%.6g (sumRe/sumw=%.6g)\n",
+        sre, sim, sw > 0 ? sre / sw : 0.0);
     std::fprintf(stderr,
         "global_clip: med=%.6g mad=%.6g thresh=%.3g cut=%.6g  "
         "flagged %zu/%zu (%.2f%%)\n",
-        med, mad, thresh, cut, flagged, N, 100.0 * double(flagged) / double(N));
+        med, mad, thresh, cut, flagged, M, 100.0 * double(flagged) / double(M));
 
-    dirty = std::move(kd);
-    psf   = std::move(kp);
     return flagged;
 }
 

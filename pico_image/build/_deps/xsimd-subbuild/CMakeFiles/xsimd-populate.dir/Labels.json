@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/CMakeFiles/xsimd-populate"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/CMakeFiles/xsimd-populate.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/CMakeFiles/xsimd-populate-complete.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-build.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-configure.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-download.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-install.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-patch.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-test.rule"
+		},
+		{
+			"file" : "/home/arpan/pico/pico_backend/pico_image/build/_deps/xsimd-subbuild/xsimd-populate-prefix/src/xsimd-populate-stamp/xsimd-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"xsimd-populate"
+		],
+		"name" : "xsimd-populate"
+	}
+}

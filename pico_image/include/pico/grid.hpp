@@ -69,17 +69,15 @@ struct DirtyOut {
     double sumw = 0.0;
 };
 
-// Global robust MAD clip across ALL gathered samples. Ports svfits clip()
-// (svsubs.c:1322), the post-average stage that pico was missing: per-baseline
-// clip_record() cannot flag an RFI baseline that is *uniformly* hot (its own
-// median rises with the RFI), so such a baseline's coherent samples pile up at
-// the phase centre as a bright central point source. This computes one median
-// + MAD over all sample amplitudes (|c|/wt) and drops samples with
-// |amp - med| > thresh*mad from BOTH bags in lockstep (they must be the same
-// length / index-aligned). Two-sided, raw MAD — matches svfits robust_stats.
-// Returns the number of samples flagged.
+// Robust MAD clip over the sample range [begin, size). Ports svfits clip()
+// (svsubs.c:1322), which runs per (file,slice) on that slice's dumped
+// visibilities — call this after each slice with `begin` = bag size before
+// the slice, so the med/MAD scope matches svfits. One median + MAD over the
+// range's amplitudes (|c|/wt), drop samples with |amp - med| > thresh*mad
+// from BOTH bags in lockstep (they must be the same length / index-aligned).
+// Two-sided, raw MAD — matches svfits robust_stats. Returns flagged count.
 std::size_t global_clip_samples(GridSamples& dirty, GridSamples& psf,
-                                double thresh);
+                                double thresh, std::size_t begin = 0);
 
 // Run FINUFFT 2D type-1 on samples g (already in [-pi,pi)) into a (n1 x n2)
 // grid, then take the magnitude/real part as the dirty image. tol is the

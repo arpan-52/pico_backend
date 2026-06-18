@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/arpan/pico/pico_backend/pico_image/build/_deps/findfftw-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
