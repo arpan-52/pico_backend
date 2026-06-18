@@ -117,11 +117,17 @@ int open_raw_set(const Config& cfg, const AntSamp& as, RawSet& out) {
             f.t_start, f.path.c_str());
     }
 
-    // Cross-check the clock-derived t_slice against the data: consecutive
-    // slices on the same file are slice_interval = nfile*t_slice apart, and
-    // each slice carries its own timestamp (svfits validates this per slice
-    // and exits on mismatch, svsubs.c:874-881). A wrong clock/sta/lta
-    // assumption would silently shift every record selection — catch it here.
+    // Cross-check the clock-derived t_slice against the data — but ONLY when
+    // file[0] genuinely stacks a second timestamped slice. svfits supports
+    // multiple slices per file (svsubs.c:874-881), where consecutive slices on
+    // the same file are slice_interval = nfile*t_slice apart and each carries
+    // its own timestamp. SPOTLIGHT burst dumps, however, are one slice per file:
+    // all nfile files carry file[0]'s identical timestamp and are ordered solely
+    // by the embedded index (t_start = idx*t_slice — see the loop above). There
+    // is then no second timestamp inside file[0]; a read at +per_slice lands in
+    // visibility (half-float) data, which decoded as time_t is absurd. Treat an
+    // implausible second timestamp as "single slice per file" and skip — exactly
+    // like the file-too-short case — instead of falsely rejecting good data.
     {
         const std::size_t per_slice = 16 + (cfg.have_idx ? sizeof(int) : 0)
                                     + out.rec_per_slice * out.recl;
@@ -131,16 +137,28 @@ int open_raw_set(const Config& cfg, const AntSamp& as, RawSet& out) {
                     static_cast<off_t>(per_slice)) == (ssize_t)sizeof(tv1)) {
             const double dt = (tv1.tv_sec - tv0.tv_sec)
                             + (tv1.tv_usec - tv0.tv_usec) * 1e-6;
-            const double t_slice_meas = dt / cfg.nfile;
-            const double tiny = (out.t_slice / out.rec_per_slice) * 1.0e-3;
-            std::fprintf(stderr,
-                "raw_io: t_slice derived=%.9f s, measured from timestamps=%.9f s\n",
-                out.t_slice, t_slice_meas);
-            if (std::fabs(t_slice_meas - out.t_slice) > tiny) {
+            // A real second slice is ~slice_interval (≈1 s) after the first.
+            // Anything outside (0, 1 day] or with an out-of-range usec is data,
+            // not a timestamp ⇒ one slice per file, nothing to cross-check.
+            const bool tv1_is_time = tv1.tv_usec >= 0 && tv1.tv_usec < 1000000
+                                   && dt > 0.0 && dt < 86400.0;
+            if (!tv1_is_time) {
                 std::fprintf(stderr,
-                    "raw_io: ERROR t_slice mismatch — correlator constants "
-                    "(clock/sta/lta) wrong for these data\n");
-                return -1;
+                    "raw_io: single slice per file (no 2nd timestamp in file[0]); "
+                    "t_slice derived=%.9f s [clock-derived, unchecked]\n",
+                    out.t_slice);
+            } else {
+                const double t_slice_meas = dt / cfg.nfile;
+                const double tiny = (out.t_slice / out.rec_per_slice) * 1.0e-3;
+                std::fprintf(stderr,
+                    "raw_io: t_slice derived=%.9f s, measured from timestamps=%.9f s\n",
+                    out.t_slice, t_slice_meas);
+                if (std::fabs(t_slice_meas - out.t_slice) > tiny) {
+                    std::fprintf(stderr,
+                        "raw_io: ERROR t_slice mismatch — correlator constants "
+                        "(clock/sta/lta) wrong for these data\n");
+                    return -1;
+                }
             }
         }
         // (file too short for 2 slices: skip the check)
