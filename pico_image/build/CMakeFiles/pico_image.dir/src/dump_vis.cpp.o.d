@@ -1,7 +1,7 @@
-CMakeFiles/pico_image.dir/src/pipeline.cpp.o: \
- /home/arpan/pico/pico_backend/pico_image/src/pipeline.cpp \
+CMakeFiles/pico_image.dir/src/dump_vis.cpp.o: \
+ /home/arpan/pico/pico_backend/pico_image/src/dump_vis.cpp \
  /usr/include/stdc-predef.h \
- /home/arpan/pico/pico_backend/pico_image/include/pico/pipeline.hpp \
+ /home/arpan/pico/pico_backend/pico_image/include/pico/dump_vis.hpp \
  /home/arpan/pico/pico_backend/pico_image/include/pico/config.hpp \
  /usr/include/c++/15.2.1/string \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
@@ -182,21 +182,32 @@ CMakeFiles/pico_image.dir/src/pipeline.cpp.o: \
  /usr/include/c++/15.2.1/bits/sstream.tcc /usr/include/c++/15.2.1/array \
  /usr/include/c++/15.2.1/compare \
  /home/arpan/pico/pico_backend/pico_image/include/pico/raw_io.hpp \
- /home/arpan/pico/pico_backend/pico_image/include/pico/grid.hpp \
  /home/arpan/pico/pico_backend/pico_image/include/pico/calib.hpp \
  /home/arpan/pico/pico_backend/pico_image/include/pico/dm.hpp \
  /home/arpan/pico/pico_backend/pico_image/include/pico/uvw.hpp \
- /home/arpan/pico/pico_backend/pico_image/include/pico/clean.hpp \
- /home/arpan/pico/pico_backend/pico_image/include/pico/fits_out.hpp \
- /home/arpan/pico/pico_backend/pico_image/include/pico/dump_vis.hpp \
  /home/arpan/pico/pico_backend/pico_image/include/pico/half.hpp \
+ /home/arpan/pico/pico_backend/pico_image/include/pico/grid.hpp \
+ /usr/include/fitsio.h /usr/include/c++/15.2.1/stdlib.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/limits.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/syslimits.h \
+ /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+ /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
+ /usr/include/bits/uio_lim.h /usr/include/longnam.h \
  /usr/include/c++/15.2.1/cstring /usr/include/string.h \
- /usr/include/strings.h /usr/include/c++/15.2.1/algorithm \
+ /usr/include/strings.h /usr/include/c++/15.2.1/unordered_map \
+ /usr/include/c++/15.2.1/bits/unordered_map.h \
+ /usr/include/c++/15.2.1/bits/hashtable.h \
+ /usr/include/c++/15.2.1/bits/hashtable_policy.h \
+ /usr/include/c++/15.2.1/ext/aligned_buffer.h \
+ /usr/include/c++/15.2.1/bits/enable_special_members.h \
+ /usr/include/c++/15.2.1/bits/node_handle.h \
+ /usr/include/c++/15.2.1/bits/erase_if.h \
+ /usr/include/c++/15.2.1/algorithm \
  /usr/include/c++/15.2.1/bits/stl_algo.h \
  /usr/include/c++/15.2.1/bits/algorithmfwd.h \
  /usr/include/c++/15.2.1/bits/stl_heap.h \
  /usr/include/c++/15.2.1/bits/uniform_int_dist.h \
  /usr/include/c++/15.2.1/bits/stl_tempbuf.h \
  /usr/include/c++/15.2.1/pstl/glue_algorithm_defs.h \
- /usr/include/c++/15.2.1/pstl/execution_defs.h \
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/omp.h
+ /usr/include/c++/15.2.1/pstl/execution_defs.h

@@ -64,12 +64,14 @@ CMAKE_BINARY_DIR = /home/arpan/pico/pico_backend/pico_image/build
 
 # The main recursive "all" target.
 all: CMakeFiles/pico_image.dir/all
+all: CMakeFiles/pico_imgtest.dir/all
 all: _finufft/all
 all: _supernovas/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/pico_image.dir/codegen
+codegen: CMakeFiles/pico_imgtest.dir/codegen
 codegen: _finufft/codegen
 codegen: _supernovas/codegen
 .PHONY : codegen
@@ -81,6 +83,7 @@ preinstall: _supernovas/preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/pico_image.dir/clean
+clean: CMakeFiles/pico_imgtest.dir/clean
 clean: _finufft/clean
 clean: _supernovas/clean
 .PHONY : clean
@@ -236,12 +239,12 @@ CMakeFiles/pico_image.dir/all: _finufft/src/common/CMakeFiles/finufft_common.dir
 CMakeFiles/pico_image.dir/all: _supernovas/src/c99/CMakeFiles/core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62 "Built target pico_image"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62,63 "Built target pico_image"
 .PHONY : CMakeFiles/pico_image.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pico_image.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles 62
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles 63
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pico_image.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles 0
 .PHONY : CMakeFiles/pico_image.dir/rule
@@ -253,13 +256,46 @@ pico_image: CMakeFiles/pico_image.dir/rule
 # codegen rule for target.
 CMakeFiles/pico_image.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62 "Finished codegen for target pico_image"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62,63 "Finished codegen for target pico_image"
 .PHONY : CMakeFiles/pico_image.dir/codegen
 
 # clean rule for target.
 CMakeFiles/pico_image.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/clean
 .PHONY : CMakeFiles/pico_image.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/pico_imgtest.dir
+
+# All Build rule for target.
+CMakeFiles/pico_imgtest.dir/all: _finufft/src/CMakeFiles/finufft.dir/all
+CMakeFiles/pico_imgtest.dir/all: _finufft/src/common/CMakeFiles/finufft_common.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=64,65,66,67 "Built target pico_imgtest"
+.PHONY : CMakeFiles/pico_imgtest.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/pico_imgtest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles 26
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pico_imgtest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles 0
+.PHONY : CMakeFiles/pico_imgtest.dir/rule
+
+# Convenience name for target.
+pico_imgtest: CMakeFiles/pico_imgtest.dir/rule
+.PHONY : pico_imgtest
+
+# codegen rule for target.
+CMakeFiles/pico_imgtest.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=64,65,66,67 "Finished codegen for target pico_imgtest"
+.PHONY : CMakeFiles/pico_imgtest.dir/codegen
+
+# clean rule for target.
+CMakeFiles/pico_imgtest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/clean
+.PHONY : CMakeFiles/pico_imgtest.dir/clean
 
 #=============================================================================
 # Target rules for target _finufft/src/CMakeFiles/finufft_f32.dir

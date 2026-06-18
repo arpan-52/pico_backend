@@ -111,6 +111,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/pico_image.dir/DependInfo.cmake"
+  "CMakeFiles/pico_imgtest.dir/DependInfo.cmake"
   "_finufft/src/CMakeFiles/finufft_f32.dir/DependInfo.cmake"
   "_finufft/src/CMakeFiles/finufft.dir/DependInfo.cmake"
   "_finufft/src/common/CMakeFiles/finufft_common.dir/DependInfo.cmake"

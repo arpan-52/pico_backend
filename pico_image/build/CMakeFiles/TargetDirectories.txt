@@ -1,4 +1,5 @@
 /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles/pico_image.dir
+/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles/pico_imgtest.dir
 /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles/edit_cache.dir
 /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles/rebuild_cache.dir
 /home/arpan/pico/pico_backend/pico_image/build/CMakeFiles/list_install_components.dir

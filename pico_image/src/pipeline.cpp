@@ -16,8 +16,10 @@
 #include "pico/grid.hpp"
 #include "pico/clean.hpp"
 #include "pico/fits_out.hpp"
+#include "pico/dump_vis.hpp"
 #include "pico/half.hpp"
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <complex>
 #include <vector>
@@ -86,6 +88,14 @@ int run_pipeline(const Config& cfg_in) {
                      i, rs.files[i].path.c_str(),
                      rs.files[i].start_rec,
                      rs.files[i].start_rec + rs.files[i].n_rec);
+    }
+
+    // Debug: dump calibrated visibilities to a svfits-format UVFITS for direct
+    // comparison (env PICO_DUMP_UVFITS=<path>). Dumps and returns without imaging.
+    if (const char* dpath = std::getenv("PICO_DUMP_UVFITS")) {
+        int dr = dump_uvfits(cfg, as, rs, dpath);
+        close_raw_set(rs);
+        return dr;
     }
 
     const double ref_freq = resolve_ref_freq(cfg);

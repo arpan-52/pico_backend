@@ -175,6 +175,19 @@ pico_image/fast:
 .PHONY : pico_image/fast
 
 #=============================================================================
+# Target rules for targets named pico_imgtest
+
+# Build rule for target.
+pico_imgtest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_imgtest
+.PHONY : pico_imgtest
+
+# fast build rule for target.
+pico_imgtest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/build
+.PHONY : pico_imgtest/fast
+
+#=============================================================================
 # Target rules for targets named finufft_f32
 
 # Build rule for target.
@@ -293,6 +306,7 @@ src/clean.o: src/clean.cpp.o
 # target to build an object file
 src/clean.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/clean.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/clean.cpp.o
 .PHONY : src/clean.cpp.o
 
 src/clean.i: src/clean.cpp.i
@@ -301,6 +315,7 @@ src/clean.i: src/clean.cpp.i
 # target to preprocess a source file
 src/clean.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/clean.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/clean.cpp.i
 .PHONY : src/clean.cpp.i
 
 src/clean.s: src/clean.cpp.s
@@ -309,6 +324,7 @@ src/clean.s: src/clean.cpp.s
 # target to generate assembly for a file
 src/clean.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/clean.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/clean.cpp.s
 .PHONY : src/clean.cpp.s
 
 src/config.o: src/config.cpp.o
@@ -359,6 +375,30 @@ src/dm.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/dm.cpp.s
 .PHONY : src/dm.cpp.s
 
+src/dump_vis.o: src/dump_vis.cpp.o
+.PHONY : src/dump_vis.o
+
+# target to build an object file
+src/dump_vis.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/dump_vis.cpp.o
+.PHONY : src/dump_vis.cpp.o
+
+src/dump_vis.i: src/dump_vis.cpp.i
+.PHONY : src/dump_vis.i
+
+# target to preprocess a source file
+src/dump_vis.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/dump_vis.cpp.i
+.PHONY : src/dump_vis.cpp.i
+
+src/dump_vis.s: src/dump_vis.cpp.s
+.PHONY : src/dump_vis.s
+
+# target to generate assembly for a file
+src/dump_vis.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/dump_vis.cpp.s
+.PHONY : src/dump_vis.cpp.s
+
 src/fits_out.o: src/fits_out.cpp.o
 .PHONY : src/fits_out.o
 
@@ -389,6 +429,7 @@ src/grid.o: src/grid.cpp.o
 # target to build an object file
 src/grid.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/grid.cpp.o
 .PHONY : src/grid.cpp.o
 
 src/grid.i: src/grid.cpp.i
@@ -397,6 +438,7 @@ src/grid.i: src/grid.cpp.i
 # target to preprocess a source file
 src/grid.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/grid.cpp.i
 .PHONY : src/grid.cpp.i
 
 src/grid.s: src/grid.cpp.s
@@ -405,7 +447,32 @@ src/grid.s: src/grid.cpp.s
 # target to generate assembly for a file
 src/grid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_image.dir/build.make CMakeFiles/pico_image.dir/src/grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/grid.cpp.s
 .PHONY : src/grid.cpp.s
+
+src/imgtest.o: src/imgtest.cpp.o
+.PHONY : src/imgtest.o
+
+# target to build an object file
+src/imgtest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/imgtest.cpp.o
+.PHONY : src/imgtest.cpp.o
+
+src/imgtest.i: src/imgtest.cpp.i
+.PHONY : src/imgtest.i
+
+# target to preprocess a source file
+src/imgtest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/imgtest.cpp.i
+.PHONY : src/imgtest.cpp.i
+
+src/imgtest.s: src/imgtest.cpp.s
+.PHONY : src/imgtest.s
+
+# target to generate assembly for a file
+src/imgtest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico_imgtest.dir/build.make CMakeFiles/pico_imgtest.dir/src/imgtest.cpp.s
+.PHONY : src/imgtest.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -521,6 +588,7 @@ help:
 	@echo "... finufft_common"
 	@echo "... finufft_f32"
 	@echo "... pico_image"
+	@echo "... pico_imgtest"
 	@echo "... src/antsamp.o"
 	@echo "... src/antsamp.i"
 	@echo "... src/antsamp.s"
@@ -536,12 +604,18 @@ help:
 	@echo "... src/dm.o"
 	@echo "... src/dm.i"
 	@echo "... src/dm.s"
+	@echo "... src/dump_vis.o"
+	@echo "... src/dump_vis.i"
+	@echo "... src/dump_vis.s"
 	@echo "... src/fits_out.o"
 	@echo "... src/fits_out.i"
 	@echo "... src/fits_out.s"
 	@echo "... src/grid.o"
 	@echo "... src/grid.i"
 	@echo "... src/grid.s"
+	@echo "... src/imgtest.o"
+	@echo "... src/imgtest.i"
+	@echo "... src/imgtest.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

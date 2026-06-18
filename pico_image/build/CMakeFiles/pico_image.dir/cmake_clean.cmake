@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pico_image.dir/src/config.cpp.o.d"
   "CMakeFiles/pico_image.dir/src/dm.cpp.o"
   "CMakeFiles/pico_image.dir/src/dm.cpp.o.d"
+  "CMakeFiles/pico_image.dir/src/dump_vis.cpp.o"
+  "CMakeFiles/pico_image.dir/src/dump_vis.cpp.o.d"
   "CMakeFiles/pico_image.dir/src/fits_out.cpp.o"
   "CMakeFiles/pico_image.dir/src/fits_out.cpp.o.d"
   "CMakeFiles/pico_image.dir/src/grid.cpp.o"

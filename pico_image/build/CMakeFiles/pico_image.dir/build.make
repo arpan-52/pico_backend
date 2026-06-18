@@ -198,10 +198,24 @@ CMakeFiles/pico_image.dir/src/fits_out.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/pico_image.dir/src/fits_out.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/arpan/pico/pico_backend/pico_image/src/fits_out.cpp -o CMakeFiles/pico_image.dir/src/fits_out.cpp.s
 
+CMakeFiles/pico_image.dir/src/dump_vis.cpp.o: CMakeFiles/pico_image.dir/flags.make
+CMakeFiles/pico_image.dir/src/dump_vis.cpp.o: /home/arpan/pico/pico_backend/pico_image/src/dump_vis.cpp
+CMakeFiles/pico_image.dir/src/dump_vis.cpp.o: CMakeFiles/pico_image.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/pico_image.dir/src/dump_vis.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pico_image.dir/src/dump_vis.cpp.o -MF CMakeFiles/pico_image.dir/src/dump_vis.cpp.o.d -o CMakeFiles/pico_image.dir/src/dump_vis.cpp.o -c /home/arpan/pico/pico_backend/pico_image/src/dump_vis.cpp
+
+CMakeFiles/pico_image.dir/src/dump_vis.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/pico_image.dir/src/dump_vis.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/arpan/pico/pico_backend/pico_image/src/dump_vis.cpp > CMakeFiles/pico_image.dir/src/dump_vis.cpp.i
+
+CMakeFiles/pico_image.dir/src/dump_vis.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/pico_image.dir/src/dump_vis.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/arpan/pico/pico_backend/pico_image/src/dump_vis.cpp -o CMakeFiles/pico_image.dir/src/dump_vis.cpp.s
+
 CMakeFiles/pico_image.dir/src/pipeline.cpp.o: CMakeFiles/pico_image.dir/flags.make
 CMakeFiles/pico_image.dir/src/pipeline.cpp.o: /home/arpan/pico/pico_backend/pico_image/src/pipeline.cpp
 CMakeFiles/pico_image.dir/src/pipeline.cpp.o: CMakeFiles/pico_image.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/pico_image.dir/src/pipeline.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/pico_image.dir/src/pipeline.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pico_image.dir/src/pipeline.cpp.o -MF CMakeFiles/pico_image.dir/src/pipeline.cpp.o.d -o CMakeFiles/pico_image.dir/src/pipeline.cpp.o -c /home/arpan/pico/pico_backend/pico_image/src/pipeline.cpp
 
 CMakeFiles/pico_image.dir/src/pipeline.cpp.i: cmake_force
@@ -215,7 +229,7 @@ CMakeFiles/pico_image.dir/src/pipeline.cpp.s: cmake_force
 CMakeFiles/pico_image.dir/src/main.cpp.o: CMakeFiles/pico_image.dir/flags.make
 CMakeFiles/pico_image.dir/src/main.cpp.o: /home/arpan/pico/pico_backend/pico_image/src/main.cpp
 CMakeFiles/pico_image.dir/src/main.cpp.o: CMakeFiles/pico_image.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/pico_image.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/pico_image.dir/src/main.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pico_image.dir/src/main.cpp.o -MF CMakeFiles/pico_image.dir/src/main.cpp.o.d -o CMakeFiles/pico_image.dir/src/main.cpp.o -c /home/arpan/pico/pico_backend/pico_image/src/main.cpp
 
 CMakeFiles/pico_image.dir/src/main.cpp.i: cmake_force
@@ -237,6 +251,7 @@ pico_image_OBJECTS = \
 "CMakeFiles/pico_image.dir/src/grid.cpp.o" \
 "CMakeFiles/pico_image.dir/src/clean.cpp.o" \
 "CMakeFiles/pico_image.dir/src/fits_out.cpp.o" \
+"CMakeFiles/pico_image.dir/src/dump_vis.cpp.o" \
 "CMakeFiles/pico_image.dir/src/pipeline.cpp.o" \
 "CMakeFiles/pico_image.dir/src/main.cpp.o"
 
@@ -252,6 +267,7 @@ pico_image: CMakeFiles/pico_image.dir/src/calib.cpp.o
 pico_image: CMakeFiles/pico_image.dir/src/grid.cpp.o
 pico_image: CMakeFiles/pico_image.dir/src/clean.cpp.o
 pico_image: CMakeFiles/pico_image.dir/src/fits_out.cpp.o
+pico_image: CMakeFiles/pico_image.dir/src/dump_vis.cpp.o
 pico_image: CMakeFiles/pico_image.dir/src/pipeline.cpp.o
 pico_image: CMakeFiles/pico_image.dir/src/main.cpp.o
 pico_image: CMakeFiles/pico_image.dir/build.make
@@ -268,7 +284,7 @@ pico_image: /usr/lib/libfftw3_omp.so
 pico_image: _finufft/src/common/libfinufft_common.a
 pico_image: /usr/lib/libm.so
 pico_image: CMakeFiles/pico_image.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable pico_image"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/arpan/pico/pico_backend/pico_image/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable pico_image"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pico_image.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
