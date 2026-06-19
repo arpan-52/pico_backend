@@ -163,9 +163,12 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
             for (int c = 0; c < nch; ++c) bp.off_src[b][c] = Complex{0, 0};
 
     // --- per-channel bandpass debug (env PICO_BP_DEBUG) -------------------
-    // For the first cross baseline of the first slice, dump abp distribution +
-    // sample channels (off-source record count, off_src, normalized abp) to see
-    // why some channels collapse to abp<0.1 (the ÷abp blow-up).
+    // For the first cross baseline of the first slice: recompute the RAW (pre-
+    // normalization) abp = <|raw|> over off-source records, the per-baseline
+    // median used to normalize, the abp distribution, and the channels with the
+    // smallest normalized abp (the ÷abp blow-up). This shows whether the tiny
+    // abp comes from a genuinely quiet channel, too-few off-source records, or
+    // an inflated median.
     if (std::getenv("PICO_BP_DEBUG")) {
         static bool done = false;
         if (!done) {
@@ -174,23 +177,39 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
             for (int b = 0; b < nbase; ++b)
                 if (as.baseline[b].s0.ant_id != as.baseline[b].s1.ant_id) { bd = b; break; }
             if (bd >= 0) {
-                int lt01 = 0, lt05 = 0, gt2 = 0;
+                const auto* base = static_cast<const float*>(rbuf);
+                std::vector<float> pre(nch, -1.f); std::vector<int> noff(nch, 0);
                 for (int c = 0; c < nch; ++c) {
-                    float a = bp.abp[bd][c];
-                    if (a < 0.1f) ++lt01; else if (a < 0.5f) ++lt05; else if (a > 2.f) ++gt2;
+                    double s = 0; int n = 0;
+                    for (int r = 0; r < rs.rec_per_slice; ++r) {
+                        if (r >= ch_r0[c] && r <= ch_r1[c]) continue;
+                        Vis v; decode_vis(base + (std::ptrdiff_t)r*(nch*nbase) + (std::ptrdiff_t)bd*nch + c, v);
+                        if (std::isfinite(v.r) && std::isfinite(v.i)) { s += std::hypot(v.r, v.i); ++n; }
+                    }
+                    noff[c] = n; if (n > 0) pre[c] = float(s / n);
                 }
+                // forward-fill flagged then median (same as the real path)
+                std::vector<float> ff(pre);
+                if (ff[0] < 0) for (int c = 1; c < nch; ++c) if (ff[c] > 0) { ff[0] = ff[c]; break; }
+                for (int c = 1; c < nch; ++c) if (ff[c] < 0) ff[c] = ff[c-1];
+                std::vector<float> tmp(ff); std::nth_element(tmp.begin(), tmp.begin()+nch/2, tmp.end());
+                float med = tmp[nch/2];
+                if (nch%2==0) med = 0.5f*(med + *std::max_element(tmp.begin(), tmp.begin()+nch/2));
+                // normalized abp = ff/med ; distribution + smallest
+                std::vector<float> nrm(nch); for (int c=0;c<nch;++c) nrm[c]=ff[c]/med;
+                int lt01=0,lt05=0,gt2=0,flagged=0;
+                for (int c=0;c<nch;++c){ if(pre[c]<0)++flagged; float a=nrm[c]; if(a<0.1f)++lt01; else if(a<0.5f)++lt05; else if(a>2.f)++gt2; }
                 std::fprintf(stderr,
-                    "BP_DEBUG b=%d a%d-a%d slice=%d: abp dist  <0.1:%d  0.1-0.5:%d  >2:%d  / %d chan\n",
+                    "BP_DEBUG b=%d a%d-a%d slice=%d: median(abp_pre)=%.3f  flagged(n_off==0)=%d  "
+                    "abp_norm dist <0.1:%d 0.1-0.5:%d >2:%d /%d\n",
                     bd, as.baseline[bd].s0.ant_id, as.baseline[bd].s1.ant_id, slice,
-                    lt01, lt05, gt2, nch);
-                for (int c = 0; c < nch; c += 341) {
-                    int n = 0;
-                    for (int r = 0; r < rs.rec_per_slice; ++r)
-                        if (!(r >= ch_r0[c] && r <= ch_r1[c])) ++n;
-                    std::fprintf(stderr,
-                        "  c=%4d  n_off=%2d  off_re=%9.3f  abp=%.4f\n",
-                        c, n, bp.off_src[bd][c].real(), bp.abp[bd][c]);
-                }
+                    med, flagged, lt01, lt05, gt2, nch);
+                std::vector<int> ord(nch); for(int c=0;c<nch;++c)ord[c]=c;
+                std::sort(ord.begin(),ord.end(),[&](int a,int b){return nrm[a]<nrm[b];});
+                std::fprintf(stderr,"  smallest-abp channels (c: n_off abp_pre abp_norm off_re):\n");
+                for (int k=0;k<8;++k){ int c=ord[k];
+                    std::fprintf(stderr,"   c=%4d  n_off=%2d  abp_pre=%9.4f  abp_norm=%.5f  off_re=%9.3f\n",
+                        c, noff[c], pre[c], nrm[c], bp.off_src[bd][c].real()); }
             }
         }
     }
