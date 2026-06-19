@@ -73,6 +73,8 @@ int dump_uvfits(const Config& cfg, const AntSamp& as, RawSet& rs,
     std::vector<float> D;  // 6 data floats per group
     P.reserve(2000000); D.reserve(2000000);
     long ng = 0; bool capped = false;
+    // aggregate diagnostics (RR): mean raw, mean off_src, mean abp, mean calib
+    double Sraw=0, Soff=0, Sabp=0, Scal=0; long Sn=0; long n_offzero=0, n_abpsmall=0;
 
     std::vector<float> rbuf(rs.rec_per_slice *
                             (std::size_t)(rs.recl / sizeof(float)));
@@ -127,10 +129,21 @@ int dump_uvfits(const Config& cfg, const AntSamp& as, RawSet& rs,
                         Vis vrr, vll;
                         decode_packed(rowRR + c, vrr);
                         decode_packed(rowLL + c, vll);
+                        // --- diagnostic: capture raw, off_src, abp for RR ---
+                        const float raw_re = vrr.r;
+                        float off_re = 0.f, abp_v = 1.f;
+                        if ((cfg.do_band || cfg.do_base) && rr < bp.n_base
+                            && !bp.off_src.empty()) {
+                            off_re = bp.off_src[rr][c].real();
+                            abp_v  = bp.abp[rr][c];
+                        }
                         if (cfg.do_band || cfg.do_base) {
                             apply_calib(vrr, bp, rr, c);
                             apply_calib(vll, bp, ll, c);
                         }
+                        Sraw += raw_re; Soff += off_re; Sabp += abp_v; Scal += vrr.r; ++Sn;
+                        if (off_re == 0.f) ++n_offzero;
+                        if (abp_v > 0.f && abp_v < 0.1f) ++n_abpsmall;
                         if (conj_vis) { vrr.i = -vrr.i; vll.i = -vll.i; }
                         const double fc = freq0 + c * ch_w;
                         const double sc = fc / freq0;
@@ -153,6 +166,14 @@ int dump_uvfits(const Config& cfg, const AntSamp& as, RawSet& rs,
     }
 
     if (ng == 0) { std::fprintf(stderr, "dump_uvfits: no groups collected\n"); return -1; }
+
+    if (Sn > 0)
+        std::fprintf(stderr,
+            "dump_uvfits DIAG (RR, n=%ld): <raw_re>=%.4f  <off_src_re>=%.4f  "
+            "<abp>=%.4f  <calib_re>=%.4f   (raw-off)=%.4f  off==0: %.2f%%  "
+            "abp<0.1: %.2f%%\n",
+            Sn, Sraw/Sn, Soff/Sn, Sabp/Sn, Scal/Sn, (Sraw-Soff)/Sn,
+            100.0*n_offzero/Sn, 100.0*n_abpsmall/Sn);
 
     // ---- write the UVFITS primary HDU (random groups) -----------------------
     fitsfile* fp = nullptr; int st = 0;
