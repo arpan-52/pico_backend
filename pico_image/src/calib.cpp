@@ -11,6 +11,8 @@
 #include "pico/dm.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <vector>
 
@@ -159,6 +161,39 @@ int make_bandpass(const Config& cfg, const RawSet& rs, const AntSamp& as,
     if (!cfg.do_base)
         for (int b = 0; b < nbase; ++b)
             for (int c = 0; c < nch; ++c) bp.off_src[b][c] = Complex{0, 0};
+
+    // --- per-channel bandpass debug (env PICO_BP_DEBUG) -------------------
+    // For the first cross baseline of the first slice, dump abp distribution +
+    // sample channels (off-source record count, off_src, normalized abp) to see
+    // why some channels collapse to abp<0.1 (the ÷abp blow-up).
+    if (std::getenv("PICO_BP_DEBUG")) {
+        static bool done = false;
+        if (!done) {
+            done = true;
+            int bd = -1;
+            for (int b = 0; b < nbase; ++b)
+                if (as.baseline[b].s0.ant_id != as.baseline[b].s1.ant_id) { bd = b; break; }
+            if (bd >= 0) {
+                int lt01 = 0, lt05 = 0, gt2 = 0;
+                for (int c = 0; c < nch; ++c) {
+                    float a = bp.abp[bd][c];
+                    if (a < 0.1f) ++lt01; else if (a < 0.5f) ++lt05; else if (a > 2.f) ++gt2;
+                }
+                std::fprintf(stderr,
+                    "BP_DEBUG b=%d a%d-a%d slice=%d: abp dist  <0.1:%d  0.1-0.5:%d  >2:%d  / %d chan\n",
+                    bd, as.baseline[bd].s0.ant_id, as.baseline[bd].s1.ant_id, slice,
+                    lt01, lt05, gt2, nch);
+                for (int c = 0; c < nch; c += 341) {
+                    int n = 0;
+                    for (int r = 0; r < rs.rec_per_slice; ++r)
+                        if (!(r >= ch_r0[c] && r <= ch_r1[c])) ++n;
+                    std::fprintf(stderr,
+                        "  c=%4d  n_off=%2d  off_re=%9.3f  abp=%.4f\n",
+                        c, n, bp.off_src[bd][c].real(), bp.abp[bd][c]);
+                }
+            }
+        }
+    }
     return 0;
 }
 
